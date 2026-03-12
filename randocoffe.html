@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Рандомный кофе</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header {
+      background: #4a90e2;
+      color: white;
+      width: 100%;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+    }
+    .buttons {
+      margin: 20px 0;
+      display: flex;
+      gap: 15px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #4a90e2;
+      color: white;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #357ab8;
+    }
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .card {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      width: 200px;
+      text-align: center;
+    }
+    #advice {
+      margin-top: 20px;
+      font-style: italic;
+      color: #333;
+    }
+    #profile {
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>Рандомный кофе</header>
+
+  <div class="buttons">
+    <button id="randomBtn">Рандом</button>
+    <button id="adviceBtn">Совет</button>
+    <button id="profileBtn">Профиль</button>
+  </div>
+
+  <div class="cards" id="cardsContainer"></div>
+
+  <div id="advice"></div>
+  <div id="profile" style="display:none;"></div>
+
+  <script>
+    // Пример данных коллег
+    const colleagues = [
+      { name: "Анна", department: "Маркетинг", fact: "Любит кататься на роликах" },
+      { name: "Игорь", department: "IT", fact: "Собрал свой компьютер" },
+      { name: "Елена", department: "Продажи", fact: "Путешествовала в 15 стран" },
+      { name: "Михаил", department: "HR", fact: "Занимается йогой" },
+      { name: "Ольга", department: "Дизайн", fact: "Рисует комиксы" },
+      { name: "Дмитрий", department: "IT", fact: "Фанат гитар" },
+      { name: "Светлана", department: "Маркетинг", fact: "Любит кулинарию" },
+      { name: "Никита", department: "Продажи", fact: "Коллекционирует монеты" }
+    ];
+
+    const adviceList = [
+      "Расскажи о своей любимой книге",
+      "Поделись лайфхаком на работе",
+      "Самый смешной случай на работе",
+      "Какая у тебя мечта на ближайший год?",
+      "Какой навык хочешь развить?"
+    ];
+
+    let totalCoffee = 0;
+    let totalConnections = 0;
+
+    const cardsContainer = document.getElementById("cardsContainer");
+    const adviceDiv = document.getElementById("advice");
+    const profileDiv = document.getElementById("profile");
+
+    function getRandomColleagues() {
+      // случайные 4 коллег
+      const shuffled = colleagues.sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, 4);
+    }
+
+    function showRandom() {
+      profileDiv.style.display = "none";
+      adviceDiv.textContent = "";
+      cardsContainer.innerHTML = "";
+      const selected = getRandomColleagues();
+      selected.forEach(col => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `<strong>${col.name}</strong><br>${col.department}<br><em>${col.fact}</em><br><button onclick="chooseColleague()">Выбрать</button>`;
+        cardsContainer.appendChild(card);
+      });
+    }
+
+    function chooseColleague() {
+      totalCoffee++;
+      totalConnections++;
+      alert("Встреча назначена! ☕");
+      cardsContainer.innerHTML = "";
+    }
+
+    function showAdvice() {
+      profileDiv.style.display = "none";
+      const randomAdvice = adviceList[Math.floor(Math.random() * adviceList.length)];
+      adviceDiv.textContent = "Совет: " + randomAdvice;
+    }
+
+    function showProfile() {
+      adviceDiv.textContent = "";
+      profileDiv.style.display = "block";
+      profileDiv.innerHTML = `<strong>Ваш профиль:</strong><br>Кофе выпито: ${totalCoffee}<br>Связей построено: ${totalConnections}`;
+    }
+
+    document.getElementById("randomBtn").onclick = showRandom;
+    document.getElementById("adviceBtn").onclick = showAdvice;
+    document.getElementById("profileBtn").onclick = showProfile;
+
+  </script>
+</body>
+</html>
